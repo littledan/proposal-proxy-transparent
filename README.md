@@ -22,11 +22,7 @@ Analogous to `new Proxy`: Create a transparent Proxy with the given target and h
 
 ## Semantics
 
-For the most part, transparent Proxies act exactly like ordinary Proxies. The only difference is that, in several algorithms, there is an extra step to "tunnel" down to the underlying receiver, with the following algorithm:
-
-### Tunnel(_O_)
-1. If _O_ is a transparent Proxy, return _O_'s target.
-1. Otherwise, return _O_
+For the most part, transparent Proxies act exactly like ordinary Proxies. The only difference is that, in several algorithms, there is an extra step to "tunnel" down to the underlying receiver, with the `Proxy.transparent.unwrap` algorithm.
 
 ### Usage cases
 
