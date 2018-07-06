@@ -26,12 +26,12 @@ For the most part, transparent Proxies act exactly like ordinary Proxies. The on
 
 ### Usage cases
 
-In general, transparent Proxies unwrap themselves before usages of relevant internal slots that would make sense to carry through. Internal slots are not directly forwarded, however, to minimize the ???.
+In general, transparent Proxies unwrap themselves before usages of relevant internal slots that would make sense to carry through. Internal slots are not directly forwarded, however, to minimize the amount of unexpected states that existing algorithms may encounter (as these can currently assume that an object with certain internal slots will not have overridden object operations).
 
 - Reading or writing private fields
 - At the beginning of some methods in the JS standard library which access internal slots, like `RegExp.prototype.exec`, `Map.prototype.get` or `TypedArray` methods, but not others which are deliberately retargetable, like `RegExp.prototype[Symbol.split]` or `Array.prototype.map`. 
 - In WebIDL, e.g., at the beginning of a [WebIDL operation](https://heycam.github.io/webidl/#dfn-create-operation-function) (after step 2.1.2.2)
-- JS-level code may use `Proxy.transparent.unwrap` to unwrap itself, in case it wants to achieve the same thing.
+- JS-level code may use `Proxy.transparent.unwrap` to unwrap itself, in case it wants to achieve the same thing. The same function could be used to check for and reject transparent Proxies (which would be analogous to the behavior of built-ins that don't specially handle transparent Proxies).
 
 ### Object capability analysis
 
