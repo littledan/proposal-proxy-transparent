@@ -33,6 +33,25 @@ In general, transparent Proxies unwrap themselves before usages of relevant inte
 - In WebIDL, e.g., at the beginning of a [WebIDL operation](https://heycam.github.io/webidl/#dfn-create-operation-function) (after step 2.1.2.2)
 - JS-level code may use `Proxy.transparent.unwrap` to unwrap itself, in case it wants to achieve the same thing. The same function could be used to check for and reject transparent Proxies (which would be analogous to the behavior of built-ins that don't specially handle transparent Proxies).
 
+### Specification integration details
+
+The above locations in the JavaScript and embedder specifications check for the presence of an internal slot, and throw an exception if the internal slot is not present. This is how type checks are generally specified. These locations are generally the locations that make sense to upgrade to transparent proxy unwrapping.
+
+Some advantages of unwrapping at this point:
+- Editorially, it makes sense to find each of these type checking lines and convert them to a line which does checking and unwrapping--this should avoid adding additional lines of repetitive, error-prone specification text.
+- Implementation-wise, transparent Proxy unwrapping fits cleanly into the "else" case of a type check, so it should not cause extra checks in the case where transparent Proxies are not used. If we put unwrapping at some other point, it might often be optimizable such that more chec
+ks are not done, but over time, it's likely that the specification will get out of sync somehow or hard to interpret, and there would be additional runtime overhead.
+
+#### GetObjectWithSlot(obj, slot)
+
+1. Perform ? RequireObjectCoercible(`obj`).
+1. If `obj` has a `slot` internal slot, return `obj`.
+1. If `obj` is not a transparent Proxy, throw a `TypeError`.
+1. Let `target` be the Proxy target of `obj`.
+1. If `target` has a `slot` internal slot, return `target`.
+1. Throw a `TypeError`.
+
+
 ### Object capability analysis
 
 `Proxy.transparent` is equivalent to the existing ES2015 Proxy mechanism, plus a WeakMap mapping opted-in Proxies to targets. As such, it does not lead to any new information leak. It is proposed to be part of the JS standard library so that various built-in mechanisms, such as private field access, can access this mapping.
