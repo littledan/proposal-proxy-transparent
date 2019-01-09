@@ -1,6 +1,11 @@
-# Transparent Proxies
+# Current status
 
-Daniel Ehrenberg
+In a review, transparent proxies faced significant doubts from some TC39 delegates ([details](https://github.com/littledan/proposal-proxy-transparent/issues/3)). Because of that, the author of this proposal has no plans to present this proposal to TC39.
+
+
+-----
+
+# Transparent Proxies
 
 JavaScript developers sometimes use Proxies in a membrane-style information-hiding pattern, but often they just want to intercept all object operations, *including* in methods on the object or defined in subclasses. There are a couple of interactions with the rest of the language or proposals where this doesn't quite work out with current Proxy. These features don't "tunnel" through Proxy. Unless the Proxy implements a membrane pattern (which would remove the Proxy traps from references inside the class), the receiver (which is the Proxy) will be "wrong" and not have the private fields that the underlying target does.
 
