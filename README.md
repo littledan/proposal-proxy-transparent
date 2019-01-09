@@ -1,6 +1,6 @@
 # Current status
 
-In a review, transparent proxies faced significant doubts from some TC39 delegates ([details](https://github.com/littledan/proposal-proxy-transparent/issues/3)). Because of that, the author of this proposal has no plans to present this proposal to TC39.
+In a review, transparent proxies faced significant doubts from some TC39 delegates ([details](https://github.com/littledan/proposal-proxy-transparent/issues/3)). Because of that, **the author of this proposal has no plans to present this proposal to TC39**.
 
 
 -----
